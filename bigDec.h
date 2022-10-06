@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <cctype>
+#include<algorithm>
+#include<math.h>
 
 using namespace std;
 
@@ -12,11 +14,16 @@ class BigDecimalInt{
         string decimal;
         char sign;
     public:
-        BigDecimalInt(string decStr);
-        BigDecimalInt(int decInt);
-        string getDec();
-        char getSign();
-        string getFull();
+    BigDecimalInt(){};
+    BigDecimalInt(string decStr);
+    BigDecimalInt(int decInt);
+    void set_dec(string deci);
+    void set_sign(char s);
+    BigDecimalInt operator+ (BigDecimalInt anotherDec);
+    BigDecimalInt operator- (BigDecimalInt anotherDec);
+    string getDec();
+    char getSign();
+    string getFull();
 };
 
 #endif // bigDec.h

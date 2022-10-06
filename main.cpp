@@ -2,7 +2,8 @@
 #include "bigDec.cpp"
 
 int main(){
-    BigDecimalInt int1(-969);
-    cout << int1.getFull();
-    return 0;
+BigDecimalInt int1("98");
+BigDecimalInt int2 ("987");
+BigDecimalInt int3 = int1 + int2;
+cout<<int3.getDec();
 }
