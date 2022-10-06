@@ -3,11 +3,6 @@ bool isSmaller(string str1, string str2)
 {
     int n1 = str1.length(), n2 = str2.length();
 
-    if (n1 < n2)
-        return true;
-    if (n2 < n1)
-        return false;
-
     for (int i = 0; i < n1; i++)
         if (str1[i] < str2[i])
             return true;
@@ -164,6 +159,20 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
 BigDecimalInt BigDecimalInt::operator-(BigDecimalInt anotherDec) {
     BigDecimalInt ans;
     string str = "";
+    if(decimal.size()<anotherDec.getDec().size()){
+        int diff = anotherDec.getDec().size()-decimal.size();
+        for(int i=0;i<diff;i++){
+            decimal='0'+decimal;
+        }
+    }
+    else if(anotherDec.getDec().size()<decimal.size()){
+        int diff = decimal.size() - anotherDec.getDec().size();
+        string tmp = anotherDec.getDec();
+        for(int i=0;i<diff;i++){
+            tmp = '0'+tmp;
+        }
+        anotherDec.set_dec(tmp);
+    }
     if(sign == anotherDec.getSign()){
 if(isSmaller(decimal,anotherDec.getDec())){
     string tmp = anotherDec.getDec();
@@ -202,10 +211,31 @@ if(sign=='-'){
         ans.set_sign('-');
     }
 }
-ans.set_dec(str);
-return ans;}
+ans.set_dec(str);}
+    else{
+        if(sign == '-'){
+            ans.set_sign('-');
+        }
+            int sum, carry=0;
+            string t = anotherDec.getDec();
+            for(int i=decimal.length()-1; i>=0; i--){
+                sum = (int)decimal[i]-'0' + (int)t[i]-'0' + carry;
+                if(sum > 9){
+                    str = to_string(sum%10) + str;
+                    carry = sum/10;
+                }else{
+                    str = to_string(sum) + str;
+                    carry = 0;
+                }
+            }
+
+            if(carry != 0){
+                str = to_string(carry) + str;
+            }
+            ans.set_dec(str);
+        }
+    return ans;
+    }
 
 
-
-}
 
