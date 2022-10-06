@@ -25,5 +25,6 @@ class BigDecimalInt{
     char getSign();
     string getFull();
 };
+bool isSmaller(string str1, string str2);
 
 #endif // bigDec.h

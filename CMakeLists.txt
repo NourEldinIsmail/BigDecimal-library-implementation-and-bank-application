@@ -6,6 +6,5 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(.)
 
 add_executable(BigDecimal1
-        bigDec.cpp
         bigDec.h
         main.cpp)

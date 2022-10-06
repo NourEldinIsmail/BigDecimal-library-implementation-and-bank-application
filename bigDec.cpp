@@ -1,6 +1,24 @@
 #include "bigDec.h"
+bool isSmaller(string str1, string str2)
+{
+    int n1 = str1.length(), n2 = str2.length();
+
+    if (n1 < n2)
+        return true;
+    if (n2 < n1)
+        return false;
+
+    for (int i = 0; i < n1; i++)
+        if (str1[i] < str2[i])
+            return true;
+        else if (str1[i] > str2[i])
+            return false;
+
+    return false;
+}
 
 BigDecimalInt::BigDecimalInt(string decStr){
+    if(sign !='-'){
     if(decStr[0] == '-' || decStr[0] == '+'){
         sign = decStr[0];
         decStr.erase(0, 1);
@@ -10,7 +28,7 @@ BigDecimalInt::BigDecimalInt(string decStr){
         decimal = decStr;
         sign = '+';
     }
-}
+}}
 
 BigDecimalInt::BigDecimalInt(int decInt){
     if(decInt > 0){
@@ -22,6 +40,7 @@ BigDecimalInt::BigDecimalInt(int decInt){
         sign = tmp[0];
         tmp.erase(0,1);
         decimal = tmp;
+        cout<<decimal;
     }
 }
 
@@ -46,7 +65,7 @@ void BigDecimalInt::set_sign(char s) {sign = s;}
 
 BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
     BigDecimalInt ans;
-    if(sign == '+'&&anotherDec.getSign()=='+'){
+    if((sign == '+'&&anotherDec.getSign()=='+')||(sign == '-'&&anotherDec.getSign()=='-')){
         string result = "";
         int sum, carry=0;
         if(decimal.size()<anotherDec.getDec().size()){
@@ -57,9 +76,11 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
         }
         else if(anotherDec.getDec().size()<decimal.size()){
             int diff = decimal.size() - anotherDec.getDec().size();
+            string tmp = anotherDec.getDec();
             for(int i=0;i<diff;i++){
-                anotherDec.getDec() = '0' + anotherDec.getDec();
+                tmp = '0'+tmp;
             }
+            anotherDec.set_dec(tmp);
         }
         for(int i=decimal.length()-1; i>=0; i--){
             sum = (int)decimal[i]-'0' + (int)anotherDec.getDec()[i]-'0' + carry;
@@ -75,8 +96,29 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
         if(carry != 0){
             result = to_string(carry) + result;
         }
+        ans.set_sign(sign);
         ans.set_dec(result);
-        return result;
+        return ans;
+
      }
 
 }
+
+BigDecimalInt BigDecimalInt::operator-(BigDecimalInt anotherDec) {
+    BigDecimalInt ans;
+if(isSmaller(decimal,anotherDec.getDec())){
+    string tmp="";
+    tmp = decimal;
+    anotherDec.set_dec(decimal);
+    anotherDec.set_dec(tmp);ans.set_sign('-');}
+if(decimal.size()>anotherDec.getDec().size()){
+    int diff = decimal.size()-anotherDec.getDec().size();
+    string tmp = anotherDec.getDec();
+    for(int i=0;i<diff;i++){
+        tmp = '0'+tmp;
+    }
+    anotherDec.set_dec(tmp);
+}
+
+}
+
