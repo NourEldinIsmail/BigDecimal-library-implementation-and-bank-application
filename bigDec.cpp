@@ -106,11 +106,12 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
 
 BigDecimalInt BigDecimalInt::operator-(BigDecimalInt anotherDec) {
     BigDecimalInt ans;
+    string str = "";
 if(isSmaller(decimal,anotherDec.getDec())){
-    string tmp="";
-    tmp = decimal;
-    anotherDec.set_dec(decimal);
-    anotherDec.set_dec(tmp);ans.set_sign('-');}
+    string tmp = anotherDec.getDec();
+    swap(decimal,tmp);
+    anotherDec.set_dec(tmp);
+    ans.set_sign('-');}
 if(decimal.size()>anotherDec.getDec().size()){
     int diff = decimal.size()-anotherDec.getDec().size();
     string tmp = anotherDec.getDec();
@@ -119,6 +120,26 @@ if(decimal.size()>anotherDec.getDec().size()){
     }
     anotherDec.set_dec(tmp);
 }
+string tmp = anotherDec.getDec();
+int carry=0;
+for(int i=tmp.size();i>=0;i--){
+    int sum = (int)decimal[i]-(int)tmp[i]-carry;
+    if(sum>=0){
+        carry = 0;
+        str += to_string(sum);
+    }
+    else{
+        carry =1;
+        sum+=10;
+        str+= to_string(sum);
+    }
+}
+    reverse(str.begin(),str.end());
+str.pop_back();
+ans.set_dec(str);
+return ans;
+
+
 
 }
 

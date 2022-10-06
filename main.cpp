@@ -2,9 +2,9 @@
 #include "bigDec.cpp"
 
 int main(){
-BigDecimalInt int1("1234567890123");
-BigDecimalInt int2 ("113");
+BigDecimalInt int1("-5");
+BigDecimalInt int2 ("-70");
 BigDecimalInt int3 = int1 + int2;
-cout<<int3.getDec();
+cout<<int3.getFull();
 
 }
