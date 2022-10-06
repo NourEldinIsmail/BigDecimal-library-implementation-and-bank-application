@@ -179,14 +179,7 @@ if(isSmaller(decimal,anotherDec.getDec())){
     swap(decimal,tmp);
     anotherDec.set_dec(tmp);
     ans.set_sign('-');}
-if(decimal.size()>anotherDec.getDec().size()){
-    int diff = decimal.size()-anotherDec.getDec().size();
-    string tmp = anotherDec.getDec();
-    for(int i=0;i<diff;i++){
-        tmp = '0'+tmp;
-    }
-    anotherDec.set_dec(tmp);
-}
+
 string tmp = anotherDec.getDec();
 int carry=0;
 for(int i=tmp.size();i>=0;i--){
@@ -201,8 +194,10 @@ for(int i=tmp.size();i>=0;i--){
         str+= to_string(sum);
     }
 }
-    reverse(str.begin(),str.end());
+reverse(str.begin(),str.end());
 str.pop_back();
+if(str[0]=='0')
+str.erase(0,1);
 if(sign=='-'){
     if(ans.getSign()=='-'){
         ans.set_sign('+');
@@ -216,7 +211,7 @@ ans.set_dec(str);}
         if(sign == '-'){
             ans.set_sign('-');
         }
-            int sum, carry=0;
+           int sum, carry=0;
             string t = anotherDec.getDec();
             for(int i=decimal.length()-1; i>=0; i--){
                 sum = (int)decimal[i]-'0' + (int)t[i]-'0' + carry;
