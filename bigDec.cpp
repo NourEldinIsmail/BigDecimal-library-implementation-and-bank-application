@@ -1,9 +1,7 @@
 #include "bigDec.h"
 bool isSmaller(string str1, string str2)
 {
-    int n1 = str1.length(), n2 = str2.length();
-
-    for (int i = 0; i < n1; i++)
+    for (int i = 0; i < str1.size(); i++)
         if (str1[i] < str2[i])
             return true;
         else if (str1[i] > str2[i])
@@ -61,7 +59,6 @@ void BigDecimalInt::set_sign(char s) {sign = s;}
 BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
     BigDecimalInt ans;
     string result = "";
-
     if(decimal.size()<anotherDec.getDec().size()){
         int diff = anotherDec.getDec().size()-decimal.size();
         for(int i=0;i<diff;i++){
@@ -92,7 +89,9 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
         if(carry != 0){
             result = to_string(carry) + result;
         }
-
+      ans.set_sign(sign);
+        ans.set_dec(result);
+        return ans;
      }
     else if(sign != anotherDec.getSign()){
         if(sign == '-'){
@@ -100,10 +99,10 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
             if(isSmaller(decimal,tmp)){
                 swap(decimal,tmp);
                 anotherDec.set_dec(tmp);
-                }
+                ans.set_sign('+');}
             else{
-                ans.set_sign('-');
-            }
+                cout<<"A7A"<<endl;
+                ans.set_sign('-');}
             string tmp1 = anotherDec.getDec();
                 int carry=0;
                 for(int i=tmp1.size();i>=0;i--){
@@ -120,8 +119,12 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
                 }
                 reverse(result.begin(),result.end());
                 result.pop_back();
+                if(result[0]=='0')
+                    result.erase(0,1);
+                ans.set_dec(result);
+            return ans;
 
-            }
+        }
         else if(anotherDec.getSign()=='-'){
             string s = anotherDec.getDec();
             if (isSmaller(decimal,s)){
@@ -145,14 +148,14 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
             }
             reverse(result.begin(),result.end());
             result.pop_back();
-
-
-
+            if(result[0]=='0'){
+                result.erase(0,1);
+            }
+            ans.set_dec(result);
+            return ans;
         }
     }
-    ans.set_sign(sign);
-    ans.set_dec(result);
-    return ans;
+
 
 }
 
