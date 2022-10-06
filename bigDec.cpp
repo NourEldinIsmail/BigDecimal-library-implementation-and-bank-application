@@ -65,23 +65,24 @@ void BigDecimalInt::set_sign(char s) {sign = s;}
 
 BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
     BigDecimalInt ans;
-    if((sign == '+'&&anotherDec.getSign()=='+')||(sign == '-'&&anotherDec.getSign()=='-')){
-        string result = "";
+    string result = "";
+
+    if(decimal.size()<anotherDec.getDec().size()){
+        int diff = anotherDec.getDec().size()-decimal.size();
+        for(int i=0;i<diff;i++){
+            decimal='0'+decimal;
+        }
+    }
+    else if(anotherDec.getDec().size()<decimal.size()){
+        int diff = decimal.size() - anotherDec.getDec().size();
+        string tmp = anotherDec.getDec();
+        for(int i=0;i<diff;i++){
+            tmp = '0'+tmp;
+        }
+        anotherDec.set_dec(tmp);
+    }
+    if(sign == anotherDec.getSign()){
         int sum, carry=0;
-        if(decimal.size()<anotherDec.getDec().size()){
-            int diff = anotherDec.getDec().size()-decimal.size();
-            for(int i=0;i<diff;i++){
-                decimal='0'+decimal;
-            }
-        }
-        else if(anotherDec.getDec().size()<decimal.size()){
-            int diff = decimal.size() - anotherDec.getDec().size();
-            string tmp = anotherDec.getDec();
-            for(int i=0;i<diff;i++){
-                tmp = '0'+tmp;
-            }
-            anotherDec.set_dec(tmp);
-        }
         for(int i=decimal.length()-1; i>=0; i--){
             sum = (int)decimal[i]-'0' + (int)anotherDec.getDec()[i]-'0' + carry;
             if(sum > 9){
@@ -96,17 +97,74 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
         if(carry != 0){
             result = to_string(carry) + result;
         }
-        ans.set_sign(sign);
-        ans.set_dec(result);
-        return ans;
 
      }
+    else if(sign != anotherDec.getSign()){
+        if(sign == '-'){
+            string tmp = anotherDec.getDec();
+            if(isSmaller(decimal,tmp)){
+                swap(decimal,tmp);
+                anotherDec.set_dec(tmp);
+                }
+            else{
+                ans.set_sign('-');
+            }
+            string tmp1 = anotherDec.getDec();
+                int carry=0;
+                for(int i=tmp1.size();i>=0;i--){
+                    int sum = (int)decimal[i]-(int)tmp1[i]-carry;
+                    if(sum>=0){
+                        carry = 0;
+                        result += to_string(sum);
+                    }
+                    else{
+                        carry =1;
+                        sum+=10;
+                        result+= to_string(sum);
+                    }
+                }
+                reverse(result.begin(),result.end());
+                result.pop_back();
+
+            }
+        else if(anotherDec.getSign()=='-'){
+            string s = anotherDec.getDec();
+            if (isSmaller(decimal,s)){
+                ans.set_sign('-');
+                swap(decimal,s);
+                anotherDec.set_dec(s);
+            }
+            string tmp2 = anotherDec.getDec();
+            int carry=0;
+            for(int i=tmp2.size();i>=0;i--){
+                int sum = (int)decimal[i]-(int)tmp2[i]-carry;
+                if(sum>=0){
+                    carry = 0;
+                    result += to_string(sum);
+                }
+                else{
+                    carry =1;
+                    sum+=10;
+                    result+= to_string(sum);
+                }
+            }
+            reverse(result.begin(),result.end());
+            result.pop_back();
+
+
+
+        }
+    }
+    ans.set_sign(sign);
+    ans.set_dec(result);
+    return ans;
 
 }
 
 BigDecimalInt BigDecimalInt::operator-(BigDecimalInt anotherDec) {
     BigDecimalInt ans;
     string str = "";
+    if(sign == anotherDec.getSign()){
 if(isSmaller(decimal,anotherDec.getDec())){
     string tmp = anotherDec.getDec();
     swap(decimal,tmp);
@@ -136,8 +194,16 @@ for(int i=tmp.size();i>=0;i--){
 }
     reverse(str.begin(),str.end());
 str.pop_back();
+if(sign=='-'){
+    if(ans.getSign()=='-'){
+        ans.set_sign('+');
+    }
+    else{
+        ans.set_sign('-');
+    }
+}
 ans.set_dec(str);
-return ans;
+return ans;}
 
 
 
