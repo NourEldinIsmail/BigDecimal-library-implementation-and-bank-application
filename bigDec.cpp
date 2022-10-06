@@ -24,3 +24,19 @@ BigDecimalInt::BigDecimalInt(int decInt){
         decimal = tmp;
     }
 }
+
+string BigDecimalInt::getDec(){
+    return decimal;
+}
+
+char BigDecimalInt::getSign(){
+    return sign;
+}
+
+string BigDecimalInt::getFull(){
+    string tmp = "";
+    if(sign == '-'){
+        tmp.push_back(sign);
+    }
+    return tmp + decimal;
+}

@@ -14,6 +14,9 @@ class BigDecimalInt{
     public:
         BigDecimalInt(string decStr);
         BigDecimalInt(int decInt);
+        string getDec();
+        char getSign();
+        string getFull();
 };
 
 #endif // bigDec.h
