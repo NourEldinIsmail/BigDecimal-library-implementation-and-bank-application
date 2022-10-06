@@ -99,9 +99,8 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
             if(isSmaller(decimal,tmp)){
                 swap(decimal,tmp);
                 anotherDec.set_dec(tmp);
-                ans.set_sign('+');}
+                }
             else{
-                cout<<"A7A"<<endl;
                 ans.set_sign('-');}
             string tmp1 = anotherDec.getDec();
                 int carry=0;

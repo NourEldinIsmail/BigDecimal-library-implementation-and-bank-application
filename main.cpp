@@ -2,9 +2,9 @@
 #include "bigDec.cpp"
 
 int main(){
-BigDecimalInt int1("30");
-BigDecimalInt int2 ("-450");
-BigDecimalInt int3 = int1 - int2;
+BigDecimalInt int1("-2007558");
+BigDecimalInt int2 ("5778877");
+BigDecimalInt int3 = int1 + int2;
 cout<<int3.getFull();
 
 }
