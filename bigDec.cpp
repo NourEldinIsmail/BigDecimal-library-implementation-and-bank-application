@@ -200,11 +200,14 @@ reverse(str.begin(),str.end());
 str.pop_back();
 if(str[0]=='0')
 str.erase(0,1);
+if((decimal == anotherDec.getDec())&&(sign == '-')){
+    sign = '+';
+}
 if(sign=='-'){
     if(ans.getSign()=='-'){
         ans.set_sign('+');
     }
-    else{
+    else if(ans.getSign()!='-'){
         ans.set_sign('-');
     }
 }
