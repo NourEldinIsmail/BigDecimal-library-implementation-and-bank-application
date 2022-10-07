@@ -107,10 +107,11 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
         }
         anotherDec.set_dec(tmp);
     }
+    string dec2 = anotherDec.getDec(),dec = decimal;
     if(sign == anotherDec.getSign()){
         int sum, carry=0;
-        for(int i=decimal.length()-1; i>=0; i--){
-            sum = (int)decimal[i]-'0' + (int)anotherDec.getDec()[i]-'0' + carry;
+        for(int i=dec.length()-1; i>=0; i--){
+            sum = (int)dec[i]-'0' + (int)dec2[i]-'0' + carry;
             if(sum > 9){
                 result = to_string(sum%10) + result;
                 carry = sum/10;
@@ -123,28 +124,25 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
         if(carry != 0){
             result = to_string(carry) + result;
         }
-      ans.set_sign(sign);
+        ans.set_sign(sign);
         ans.set_dec(result);
         return ans;
      }
     else if(sign != anotherDec.getSign()){
-        if(decimal == anotherDec.getDec()){
+        if(dec == dec2){
             result ="0";
             ans.set_dec(result);
             return result;
         }
         if(sign == '-'){
-            string tmp = anotherDec.getDec();
-            if(isSmaller(decimal,tmp)){
-                swap(decimal,tmp);
-                anotherDec.set_dec(tmp);
+            if(isSmaller(dec,dec2)){
+                swap(dec,dec2);
                 }
             else{
                 ans.set_sign('-');}
-            string tmp1 = anotherDec.getDec();
                 int carry=0;
-                for(int i=tmp1.size();i>=0;i--){
-                    int sum = (int)decimal[i]-(int)tmp1[i]-carry;
+                for(int i=decimal.size()-1;i>=0;i--){
+                    int sum = (int)dec[i]-(int)dec2[i]-carry;
                     if(sum>=0){
                         carry = 0;
                         result += to_string(sum);
@@ -156,7 +154,7 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
                     }
                 }
                 reverse(result.begin(),result.end());
-                result.pop_back();
+               // result.pop_back();
                 if(result[0]=='0')
                     result.erase(0,1);
                 ans.set_dec(result);
@@ -164,16 +162,13 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
 
         }
         else if(anotherDec.getSign()=='-'){
-            string s = anotherDec.getDec();
-            if (isSmaller(decimal,s)){
+            if (isSmaller(dec,dec2)){
                 ans.set_sign('-');
-                swap(decimal,s);
-                anotherDec.set_dec(s);
+                swap(dec,dec2);
             }
-            string tmp2 = anotherDec.getDec();
             int carry=0;
-            for(int i=tmp2.size();i>=0;i--){
-                int sum = (int)decimal[i]-(int)tmp2[i]-carry;
+            for(int i=dec.size();i>=0;i--){
+                int sum = (int)dec[i]-(int)dec2[i]-carry;
                 if(sum>=0){
                     carry = 0;
                     result += to_string(sum);
@@ -207,23 +202,20 @@ BigDecimalInt BigDecimalInt::operator- (BigDecimalInt anotherDec) {
     }
     else if(anotherDec.getDec().size()<decimal.size()){
         int diff = decimal.size() - anotherDec.getDec().size();
-        string tmp = anotherDec.getDec();
+        string tmp1 = anotherDec.getDec();
         for(int i=0;i<diff;i++){
-            tmp = '0'+tmp;
+            tmp1 = '0'+tmp1;
         }
-        anotherDec.set_dec(tmp);
+        anotherDec.set_dec(tmp1);
     }
+    string dec = decimal,dec2 = anotherDec.getDec();
     if(sign == anotherDec.getSign()){
-        if(isSmaller(decimal,anotherDec.getDec())){
-            string tmp = anotherDec.getDec();
-            swap(decimal,tmp);
-            anotherDec.set_dec(tmp);
+        if(isSmaller(dec,dec2)){
+            swap(dec,dec2);
             ans.set_sign('-');}
-
-        string tmp = anotherDec.getDec();
         int carry=0;
-        for(int i=tmp.size();i>=0;i--){
-            int sum = (int)decimal[i]-(int)tmp[i]-carry;
+        for(int i=dec.size();i>=0;i--){
+            int sum = (int)dec[i]-(int)dec2[i]-carry;
             if(sum>=0){
                 carry = 0;
                 str += to_string(sum);
@@ -255,9 +247,8 @@ BigDecimalInt BigDecimalInt::operator- (BigDecimalInt anotherDec) {
                     ans.set_sign('-');
                 }
                 int sum, carry=0;
-                    string t = anotherDec.getDec();
-                    for(int i=decimal.length()-1; i>=0; i--){
-                        sum = (int)decimal[i]-'0' + (int)t[i]-'0' + carry;
+                    for(int i=dec.length()-1; i>=0; i--){
+                        sum = (int)dec[i]-'0' + (int)dec2[i]-'0' + carry;
                         if(sum > 9){
                             str = to_string(sum%10) + str;
                             carry = sum/10;
