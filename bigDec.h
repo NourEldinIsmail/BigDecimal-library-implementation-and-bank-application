@@ -21,10 +21,18 @@ class BigDecimalInt{
     void set_sign(char s);
     BigDecimalInt operator+ (BigDecimalInt anotherDec);
     BigDecimalInt operator- (BigDecimalInt anotherDec);
+    bool operator< (BigDecimalInt anotherDec);
+    bool operator> (BigDecimalInt anotherDec);
     string getDec();
     char getSign();
     string getFull();
 };
 bool isSmaller(string str1, string str2);
+
+bool equalsZero(string str);
+
+ostream& operator<< (ostream& out, BigDecimalInt bigDec);
+
+istream& operator>> (istream& in, BigDecimalInt& bigDec);
 
 #endif // bigDec.h

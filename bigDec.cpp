@@ -10,18 +10,31 @@ bool isSmaller(string str1, string str2)
     return false;
 }
 
+bool equalsZero(string str){
+    for(int i = 0; i < str.size(); i++){
+        if(str[i] != '0'){
+            return false;
+        }
+    }
+    return true;
+}
+
 BigDecimalInt::BigDecimalInt(string decStr){
     if(sign !='-'){
-    if(decStr[0] == '-' || decStr[0] == '+'){
-        sign = decStr[0];
-        decStr.erase(0, 1);
-        decimal = decStr;
+        if(decStr[0] == '-' || decStr[0] == '+'){
+            sign = decStr[0];
+            decStr.erase(0, 1);
+            decimal = decStr;
+        }
+        else{
+            decimal = decStr;
+            sign = '+';
+        }
     }
-    else{
-        decimal = decStr;
+    if(equalsZero(decimal)){
         sign = '+';
     }
-}}
+}
 
 BigDecimalInt::BigDecimalInt(int decInt){
     if(decInt > 0){
@@ -34,6 +47,9 @@ BigDecimalInt::BigDecimalInt(int decInt){
         tmp.erase(0,1);
         decimal = tmp;
         cout<<decimal;
+    }
+    if(equalsZero(decimal)){
+        sign = '+';
     }
 }
 
@@ -50,9 +66,24 @@ string BigDecimalInt::getFull(){
     if(sign == '-'){
         tmp.push_back(sign);
     }
+    long long k = 0;
+    for(int i = 0; i < decimal.size(); i++){
+        if(decimal[i] == '0'){
+            k++;
+        }
+        else{
+            break;
+        }
+    }
+    decimal.erase(0, k);
     return tmp + decimal;
 }
-void BigDecimalInt::set_dec(string deci) {decimal=deci;}
+void BigDecimalInt::set_dec(string deci){
+    decimal=deci;
+    if(equalsZero(decimal)){
+        sign = '+';
+    }
+}
 
 void BigDecimalInt::set_sign(char s) {sign = s;}
 
@@ -154,11 +185,10 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
             return ans;
         }
     }
-
-
+    return -1;
 }
 
-BigDecimalInt BigDecimalInt::operator-(BigDecimalInt anotherDec) {
+BigDecimalInt BigDecimalInt::operator- (BigDecimalInt anotherDec) {
     BigDecimalInt ans;
     string str = "";
     if(decimal.size()<anotherDec.getDec().size()){
@@ -176,66 +206,206 @@ BigDecimalInt BigDecimalInt::operator-(BigDecimalInt anotherDec) {
         anotherDec.set_dec(tmp);
     }
     if(sign == anotherDec.getSign()){
-if(isSmaller(decimal,anotherDec.getDec())){
-    string tmp = anotherDec.getDec();
-    swap(decimal,tmp);
-    anotherDec.set_dec(tmp);
-    ans.set_sign('-');}
+        if(isSmaller(decimal,anotherDec.getDec())){
+            string tmp = anotherDec.getDec();
+            swap(decimal,tmp);
+            anotherDec.set_dec(tmp);
+            ans.set_sign('-');}
 
-string tmp = anotherDec.getDec();
-int carry=0;
-for(int i=tmp.size();i>=0;i--){
-    int sum = (int)decimal[i]-(int)tmp[i]-carry;
-    if(sum>=0){
-        carry = 0;
-        str += to_string(sum);
-    }
-    else{
-        carry =1;
-        sum+=10;
-        str+= to_string(sum);
-    }
-}
-reverse(str.begin(),str.end());
-str.pop_back();
-if(str[0]=='0')
-str.erase(0,1);
-if((decimal == anotherDec.getDec())&&(sign == '-')){
-    sign = '+';
-}
-if(sign=='-'){
-    if(ans.getSign()=='-'){
-        ans.set_sign('+');
-    }
-    else if(ans.getSign()!='-'){
-        ans.set_sign('-');
-    }
-}
-ans.set_dec(str);}
-    else{
-        if(sign == '-'){
-            ans.set_sign('-');
+        string tmp = anotherDec.getDec();
+        int carry=0;
+        for(int i=tmp.size();i>=0;i--){
+            int sum = (int)decimal[i]-(int)tmp[i]-carry;
+            if(sum>=0){
+                carry = 0;
+                str += to_string(sum);
+            }
+            else{
+                carry =1;
+                sum+=10;
+                str+= to_string(sum);
+            }
         }
-           int sum, carry=0;
-            string t = anotherDec.getDec();
-            for(int i=decimal.length()-1; i>=0; i--){
-                sum = (int)decimal[i]-'0' + (int)t[i]-'0' + carry;
-                if(sum > 9){
-                    str = to_string(sum%10) + str;
-                    carry = sum/10;
-                }else{
-                    str = to_string(sum) + str;
-                    carry = 0;
+        reverse(str.begin(),str.end());
+        str.pop_back();
+        if(str[0]=='0')
+        str.erase(0,1);
+        if((decimal == anotherDec.getDec())&&(sign == '-')){
+            sign = '+';
+        }
+        if(sign=='-'){
+            if(ans.getSign()=='-'){
+                ans.set_sign('+');
+            }
+            else if(ans.getSign()!='-'){
+                ans.set_sign('-');
+            }
+        }
+        ans.set_dec(str);}
+            else{
+                if(sign == '-'){
+                    ans.set_sign('-');
                 }
-            }
+                int sum, carry=0;
+                    string t = anotherDec.getDec();
+                    for(int i=decimal.length()-1; i>=0; i--){
+                        sum = (int)decimal[i]-'0' + (int)t[i]-'0' + carry;
+                        if(sum > 9){
+                            str = to_string(sum%10) + str;
+                            carry = sum/10;
+                        }else{
+                            str = to_string(sum) + str;
+                            carry = 0;
+                        }
+                    }
 
-            if(carry != 0){
-                str = to_string(carry) + str;
-            }
-            ans.set_dec(str);
-        }
+                    if(carry != 0){
+                        str = to_string(carry) + str;
+                    }
+                    ans.set_dec(str);
+                }
     return ans;
     }
 
+
+ostream& operator<< (ostream& out, BigDecimalInt bigDec){
+    out << bigDec.getFull();
+    return out;
+}
+
+istream& operator>> (istream& in, BigDecimalInt& bigDec){
+    string tmp;
+    in >> tmp;
+    if(tmp[0] == '-' || tmp[0] == '+'){
+        bigDec.set_sign(tmp[0]);
+        tmp.erase(0, 1);
+        bigDec.set_dec(tmp);
+    }
+    else{
+        bigDec.set_dec(tmp);
+        bigDec.set_sign('+');
+    }
+    return in;
+}
+
+bool BigDecimalInt::operator> (BigDecimalInt anotherDec){
+    if(sign == '+' && anotherDec.getSign() == '-'){
+        return true;
+    }
+    else if(sign == '-' && anotherDec.getSign() == '+'){
+        return false;
+    }
+    else if(sign == '+' && anotherDec.getSign() == '+'){
+        if(decimal.size()<anotherDec.getDec().size()){
+            int diff = anotherDec.getDec().size()-decimal.size();
+            for(int i=0;i<diff;i++){
+                decimal='0'+decimal;
+            }
+        }
+        else if(anotherDec.getDec().size()<decimal.size()){
+            int diff = decimal.size() - anotherDec.getDec().size();
+            string tmp = anotherDec.getDec();
+            for(int i=0;i<diff;i++){
+                tmp = '0'+tmp;
+            }
+            anotherDec.set_dec(tmp);
+        }
+        string tmp = anotherDec.getDec();
+        for(int i = 0; i < decimal.size(); i++){
+            if(decimal[i] > tmp[i]){
+                return true;
+            }
+            else if(decimal[i] < tmp[i]){
+                return false;
+            }
+        }
+    }
+    else{
+        if(decimal.size()<anotherDec.getDec().size()){
+            int diff = anotherDec.getDec().size()-decimal.size();
+            for(int i=0;i<diff;i++){
+                decimal='0'+decimal;
+            }
+        }
+        else if(anotherDec.getDec().size()<decimal.size()){
+            int diff = decimal.size() - anotherDec.getDec().size();
+            string tmp = anotherDec.getDec();
+            for(int i=0;i<diff;i++){
+                tmp = '0'+tmp;
+            }
+            anotherDec.set_dec(tmp);
+        }
+        string tmp = anotherDec.getDec();
+        for(int i = 0; i < decimal.size(); i++){
+            if(decimal[i] > tmp[i]){
+                return false;
+            }
+            else if(decimal[i] < tmp[i]){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool BigDecimalInt::operator< (BigDecimalInt anotherDec){
+    if(sign == '+' && anotherDec.getSign() == '-'){
+        return false;
+    }
+    else if(sign == '-' && anotherDec.getSign() == '+'){
+        return true;
+    }
+    else if(sign == '+' && anotherDec.getSign() == '+'){
+        if(decimal.size()<anotherDec.getDec().size()){
+            int diff = anotherDec.getDec().size()-decimal.size();
+            for(int i=0;i<diff;i++){
+                decimal='0'+decimal;
+            }
+        }
+        else if(anotherDec.getDec().size()<decimal.size()){
+            int diff = decimal.size() - anotherDec.getDec().size();
+            string tmp = anotherDec.getDec();
+            for(int i=0;i<diff;i++){
+                tmp = '0'+tmp;
+            }
+            anotherDec.set_dec(tmp);
+        }
+        string tmp = anotherDec.getDec();
+        for(int i = 0; i < decimal.size(); i++){
+            if(decimal[i] > tmp[i]){
+                return false;
+            }
+            else if(decimal[i] < tmp[i]){
+                return true;
+            }
+        }
+    }
+    else{
+        if(decimal.size()<anotherDec.getDec().size()){
+            int diff = anotherDec.getDec().size()-decimal.size();
+            for(int i=0;i<diff;i++){
+                decimal='0'+decimal;
+            }
+        }
+        else if(anotherDec.getDec().size()<decimal.size()){
+            int diff = decimal.size() - anotherDec.getDec().size();
+            string tmp = anotherDec.getDec();
+            for(int i=0;i<diff;i++){
+                tmp = '0'+tmp;
+            }
+            anotherDec.set_dec(tmp);
+        }
+        string tmp = anotherDec.getDec();
+        for(int i = 0; i < decimal.size(); i++){
+            if(decimal[i] > tmp[i]){
+                return true;
+            }
+            else if(decimal[i] < tmp[i]){
+                return false;
+            }
+        }
+    }
+    return false;
+}
 
 
