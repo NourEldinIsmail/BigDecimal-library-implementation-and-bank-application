@@ -128,6 +128,11 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
         return ans;
      }
     else if(sign != anotherDec.getSign()){
+        if(decimal == anotherDec.getDec()){
+            result ="0";
+            ans.set_dec(result);
+            return result;
+        }
         if(sign == '-'){
             string tmp = anotherDec.getDec();
             if(isSmaller(decimal,tmp)){

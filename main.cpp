@@ -2,15 +2,8 @@
 #include "bigDec.cpp"
 
 int main(){
-    while(true){
-        BigDecimalInt int4("-0000");
-        cout << int4;
-        BigDecimalInt int1;
-        BigDecimalInt int2;
-        cin >> int1 >> int2;
-        BigDecimalInt int3 = int1 - int2;
-        cout << int3.getFull() << endl << (int1 - int2) << endl;
-        cout << (int1 < int2) << endl;
-        
-    }
+BigDecimalInt int1("666");
+BigDecimalInt int2 ("999");
+cout<<int2 + int1<<endl;
+
 }
