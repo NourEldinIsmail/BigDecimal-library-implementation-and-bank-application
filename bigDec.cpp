@@ -76,6 +76,9 @@ string BigDecimalInt::getFull(){
         }
     }
     decimal.erase(0, k);
+    if(decimal.size() == 0){
+        decimal = "0";
+    }
     return tmp + decimal;
 }
 void BigDecimalInt::set_dec(string deci){

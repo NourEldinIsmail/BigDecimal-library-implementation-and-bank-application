@@ -3,7 +3,7 @@
 
 int main(){
     while(true){
-        BigDecimalInt int4("-00025525");
+        BigDecimalInt int4("-0000");
         cout << int4;
         BigDecimalInt int1;
         BigDecimalInt int2;
