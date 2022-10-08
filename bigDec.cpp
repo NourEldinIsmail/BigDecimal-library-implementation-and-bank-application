@@ -407,4 +407,18 @@ bool BigDecimalInt::operator< (BigDecimalInt anotherDec){
     return false;
 }
 
+bool BigDecimalInt::operator== (BigDecimalInt anotherDec) {
+    if(sign == anotherDec.getSign()){
+        if(decimal == anotherDec.getDec()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    else{
+        return false;
+    }
+}
+
 
