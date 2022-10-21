@@ -422,6 +422,11 @@ bool BigDecimalInt::operator== (BigDecimalInt anotherDec) {
      /*return (getFull() == anotherDec.getFull());*/
 }
 
+BigDecimalInt BigDecimalInt::operator=(BigDecimalInt anotherDec) {
+    sign = anotherDec.getSign();
+    decimal = anotherDec.getDec();
+}
+
 int BigDecimalInt::size() {
     if(sign == '-'){
         return getFull().size()-1;
@@ -430,5 +435,7 @@ int BigDecimalInt::size() {
         return getFull().size();
     }
 }
+
+
 
 
