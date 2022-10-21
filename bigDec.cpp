@@ -408,18 +408,27 @@ bool BigDecimalInt::operator< (BigDecimalInt anotherDec){
 }
 
 bool BigDecimalInt::operator== (BigDecimalInt anotherDec) {
-    // if(sign == anotherDec.getSign()){
-    //     if(decimal == anotherDec.getDec()){
-    //         return true;
-    //     }
-    //     else{
-    //         return false;
-    //     }
-    // }
-    // else{
-    //     return false;
-    // }
-    return (getFull() == anotherDec.getFull());
+     if(sign == anotherDec.getSign()){
+         if(decimal == anotherDec.getDec()){
+             return true;
+         }
+         else{
+             return false;
+         }
+     }
+     else{
+         return false;
+     }
+     /*return (getFull() == anotherDec.getFull());*/
+}
+
+int BigDecimalInt::size() {
+    if(sign == '-'){
+        return getFull().size()-1;
+    }
+    else{
+        return getFull().size();
+    }
 }
 
 
