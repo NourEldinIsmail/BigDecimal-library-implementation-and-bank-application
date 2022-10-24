@@ -26,6 +26,7 @@ class BigDecimalInt{
     bool operator==(BigDecimalInt anotherDec);
     BigDecimalInt operator= (BigDecimalInt anotherDec);
     int size();
+    int sign1();
     string getDec();
     char getSign();
     string getFull();

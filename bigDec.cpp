@@ -265,6 +265,15 @@ BigDecimalInt BigDecimalInt::operator- (BigDecimalInt anotherDec) {
                 }
     return ans;
     }
+int BigDecimalInt::sign1() {
+    if(sign == '+'){
+        return 1;
+    }
+    else if(sign == '-'){
+        return -1;
+    }
+    return 0;
+}
 
 
 ostream& operator<< (ostream& out, BigDecimalInt bigDec){
