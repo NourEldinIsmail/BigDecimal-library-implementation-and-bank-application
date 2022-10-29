@@ -4,11 +4,7 @@
 // Author1 and ID and Group: Basmala Mohamed Sayed Gad  ID: 20210090 (a, b, c)
 // Author2 and ID and Group: Aya Ali Hassan  ID: 20210083 (d, e)
 // Author3 and ID and Group: Mohamed Ashraf Fahim  ID: 20210329 (f, i, j , k)
-/*
-description: In this problem we developed a new C++ type (class).
-that can hold unlimited decimal integer values and performs arithmetic operations on them.
-such as: +, -, <, and >.
- */
+
 
 #include "bigDec.h"
 
