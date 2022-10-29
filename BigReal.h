@@ -8,6 +8,8 @@ using namespace std;
 
 class BigReal {
 public:
+    BigReal();
+    virtual ~BigReal();
     BigReal (double realNumber = 0.0); // Default constructor
     BigReal (string realNum);
     BigReal (BigDecimalInt bigInteger);
@@ -22,14 +24,12 @@ public:
     bool operator== (BigReal anotherReal);
     int size();
     int sign();
-    string* get_real(){
-        return real;
-    ;}
+    string* get_real();
     friend ostream& operator << (ostream& out, BigReal num);
     friend istream& operator >> (istream& out, BigReal num);
 
 protected:
-    string* real;
+    string* real = new string ;
 };
 
 
