@@ -9,7 +9,7 @@ using namespace std;
 class BigReal {
 public:
     BigReal (double realNumber = 0.0); // Default constructor
-    BigReal (string realNumber);
+    BigReal (string realNum);
     BigReal (BigDecimalInt bigInteger);
     BigReal (const BigReal& other); // Copy constructor
     BigReal (BigReal&& other); // Move constructor
@@ -22,12 +22,14 @@ public:
     bool operator== (BigReal anotherReal);
     int size();
     int sign();
-    string get_num();
+    string* get_real(){
+        return real;
+    ;}
     friend ostream& operator << (ostream& out, BigReal num);
     friend istream& operator >> (istream& out, BigReal num);
-private:
-    string real;
-    double realNumber;
+
+protected:
+    string* real;
 };
 
 

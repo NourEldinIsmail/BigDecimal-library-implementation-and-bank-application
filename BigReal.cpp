@@ -1,36 +1,31 @@
 #include "BigReal.h"
-BigReal::BigReal(BigReal &&other) {  // Move constructor
+BigReal::BigReal(BigReal&&other) {  // Move constructor
     real = other.real;
-    realNumber = other.realNumber;
     other.real = nullptr;
-    other.realNumber = 0.0;
 }
 BigReal::BigReal(const BigReal &other) { // Copy constructor
-    real = other.real;
-    realNumber = other.realNumber;
+    real = new string;
+     *real =(*other.real);
 }
 
 // deep copy
 BigReal &BigReal::operator=(BigReal &other) { // Assignment operator
-    real = other.real;
-    realNumber = other.realNumber;
-    return *this;
+      real = new string(*other.real);
+       return *this;
 }
 // move assignment
 BigReal &BigReal::operator=(BigReal &&other) { // Move assignment
     real = other.real;
-    realNumber = other.realNumber;
     other.real = nullptr;
-    other.realNumber = 0.0;
     return *this;
 }
 BigReal::BigReal(string realNumber) {
-
+*real = realNumber;
 }
 BigReal::BigReal(BigDecimalInt bigInteger) {
 
 }
-BigReal::BigReal(double realNumber) {
-    this->realNumber = realNumber;
-    real = to_string(realNumber);
+BigReal::BigReal(double realNum) {
+    *real = to_string(realNum);
 }
+

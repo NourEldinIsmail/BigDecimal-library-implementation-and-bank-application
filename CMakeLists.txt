@@ -7,7 +7,7 @@ include_directories(.)
 
 add_executable(BigDecimal1
         bigDec.h
-        bigDec.cpp
         main.cpp
-        BigReal.cpp BigReal.h)
+        BigReal.h
+        )
 
