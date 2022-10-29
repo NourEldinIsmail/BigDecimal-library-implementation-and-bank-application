@@ -1,42 +1,51 @@
-#ifndef BGDC
-#define BGDC
+// FCAI – Object-Oriented Programming 1 – 2022 - Assignment 1
+// Program Name: BigDecimalInt
+// Last Modification Date: 13/10/2022
+// Author1 and ID and Group: Basmala Mohamed Sayed Gad  ID: 20210090 (a, b, c)
+// Author2 and ID and Group: Aya Ali Hassan  ID: 20210083 (d, e)
+// Author3 and ID and Group: Mohamed Ashraf Fahim  ID: 20210329 (f, i, j , k)
+/*
+description: In this problem we developed a new C++ type (class).
+that can hold unlimited decimal integer values and performs arithmetic operations on them.
+such as: +, -, <, and >.
+ */
+
+#ifndef BIGDECIMALINT_BIGDECIMALINTCLASS_H
+#define BIGDECIMALINT_BIGDECIMALINTCLASS_H
 
 #include <iostream>
-#include <string>
-#include <cctype>
-#include<algorithm>
-#include<math.h>
+#include <deque>
+#include <regex>
 
 using namespace std;
 
 class BigDecimalInt{
-    private: 
-        string decimal;
-        char sign;
-    public:
-    BigDecimalInt(){};
-    BigDecimalInt(string decStr);
-    BigDecimalInt(int decInt);
-    void set_dec(string deci);
-    void set_sign(char s);
-    BigDecimalInt operator+ (BigDecimalInt anotherDec);
-    BigDecimalInt operator- (BigDecimalInt anotherDec);
-    bool operator< (BigDecimalInt anotherDec);
-    bool operator> (BigDecimalInt anotherDec);
-    bool operator==(BigDecimalInt anotherDec);
-    BigDecimalInt operator= (BigDecimalInt anotherDec);
+private:
+    string number;
+    char sign;
+    void setNumber(string num);
+    bool checkValidInput(string input);
+
+public:
+    bool operator < (const BigDecimalInt& anotherDec);
+    bool operator > (const BigDecimalInt& anotherDec);
+    bool operator == (const BigDecimalInt anotherDec);
+    BigDecimalInt& operator = (BigDecimalInt anotherDec);
+    BigDecimalInt operator + (BigDecimalInt number2);
+    BigDecimalInt operator - (BigDecimalInt anotherDec);
+    friend ostream &operator << (ostream &out, BigDecimalInt num);
     int size();
-    int sign1();
-    string getDec();
-    char getSign();
-    string getFull();
+    int Sign();
+    void push_back(char ch);
+    void push_front(char ch);
+    BigDecimalInt(){}
+    BigDecimalInt(string num)
+    {
+        setNumber(num);
+    }
+    string getnum(){
+        return number;
+    }
 };
-bool isSmaller(string str1, string str2);
 
-bool equalsZero(string str);
-
-ostream& operator<< (ostream& out, BigDecimalInt bigDec);
-
-istream& operator>> (istream& in, BigDecimalInt& bigDec);
-
-#endif // bigDec.h
+#endif //BIGDECIMALINT_BIGDECIMALINTCLASS_H
