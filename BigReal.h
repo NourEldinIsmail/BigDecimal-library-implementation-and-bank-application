@@ -30,6 +30,7 @@ public:
 
 protected:
     string* real = new string ;
+    char sign1 ;
 };
 
 

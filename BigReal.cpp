@@ -26,12 +26,24 @@ BigReal &BigReal::operator=(BigReal &&other) { // Move assignment
 }
 
 BigReal::BigReal(BigDecimalInt bigInteger) {
-
+    *real = bigInteger.getnum();
+    *real += ".0";
 }
 BigReal::BigReal(double realNum) {
     *real = to_string(realNum);
 }
 BigReal::BigReal(string realNumber) {
+    if(realNumber[0]=='-'){
+        sign1 = '-';
+        realNumber.erase(0,1);
+    }
+    else if(realNumber[0]=='+'){
+        sign1 = '+';
+        realNumber.erase(0,1);
+    }
+    else{
+        sign1 = '+';
+    }
     if(realNumber[0]=='.'){
         realNumber = "0"+realNumber;
     }
