@@ -17,6 +17,7 @@ public:
     BigReal (BigReal&& other); // Move constructor
     BigReal& operator= (BigReal& other); // Assignment operator
     BigReal& operator= (BigReal&& other); // Move assignment
+    void assign();
     BigReal operator+ (BigReal& other);
     BigReal operator- (BigReal& other);
     bool operator< (BigReal anotherReal);
@@ -26,11 +27,13 @@ public:
     int sign();
     string* get_real();
     friend ostream& operator << (ostream& out, BigReal num);
-    friend istream& operator >> (istream& out, BigReal num);
+    friend istream& operator >> (istream& out, BigReal& num);
 
 protected:
     string* real = new string ;
-    char sign1 ;
+    char* sign1 =  new char;
+    BigDecimalInt* integer = new BigDecimalInt;
+    BigDecimalInt* fraction = new BigDecimalInt;
 };
 
 
