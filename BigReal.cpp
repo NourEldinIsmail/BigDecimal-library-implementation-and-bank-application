@@ -126,6 +126,34 @@ void BigReal::assign() {
     *this->fraction = BigDecimalInt(fraction);
 }
 
+BigReal BigReal::operator+(BigReal &other) {
+
+    BigDecimalInt num1(*(this->real));
+    BigDecimalInt num2 (*(other.real));
+    BigReal result(1.2);
+    string ref1 = num1.getnum();
+    string ref2 = num2.getnum();
+    for(int i = 0; i < ref1.length(); i++){
+        if(ref1[i] == '.'){
+            ref1.erase(i,1);
+            break;
+        }
+    }
+    for(int i = 0; i < ref2.length(); i++){
+        if(ref2[i] == '.'){
+            ref2.erase(i,1);
+            break;
+        }
+    }
+    result = ref1 + ref2;
+    for(int i = (*(result.real-1)).length(); i >= (*(result.real-2)).length(); i--){
+        (*(result.real-1)).insert(i,".");
+        break;
+    }
+    BigReal result1(result);
+    return result1;
+}
+
 bool BigReal::operator< (BigReal anotherReal){
     if(this->sign1 == anotherReal.sign1){
         if(*(this->sign1) == '+'){
@@ -243,3 +271,5 @@ istream& operator>> (istream &in, BigReal &num){
     num.assign();
     return in;
 }
+
+
