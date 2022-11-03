@@ -128,11 +128,9 @@ void BigReal::assign() {
 
 BigReal BigReal::operator+(BigReal &other) {
 
-    BigDecimalInt num1(*(this->real));
-    BigDecimalInt num2 (*(other.real));
-    BigReal result(1.2);
-    string ref1 = num1.getnum();
-    string ref2 = num2.getnum();
+    string ref1 = *(this->real);
+    string ref2 = *(other.real);
+
     for(int i = 0; i < ref1.length(); i++){
         if(ref1[i] == '.'){
             ref1.erase(i,1);
@@ -145,13 +143,14 @@ BigReal BigReal::operator+(BigReal &other) {
             break;
         }
     }
-    result = ref1 + ref2;
-    for(int i = (*(result.real-1)).length(); i >= (*(result.real-2)).length(); i--){
-        (*(result.real-1)).insert(i,".");
-        break;
-    }
-    BigReal result1(result);
-    return result1;
+  BigDecimalInt int1(ref1);
+  BigDecimalInt int2(ref2);
+    BigDecimalInt int3 = int1 + int2;
+    BigReal result(int3);
+    return result;
+
+/*BigReal result2((big1+big2).getnum());
+    return result2;*/
 }
 
 bool BigReal::operator< (BigReal anotherReal){
@@ -270,6 +269,29 @@ istream& operator>> (istream &in, BigReal &num){
     in>>*(num.real);
     num.assign();
     return in;
+}
+
+BigReal BigReal::operator-(BigReal &other) {
+    string ref1 = *(this->real);
+    string ref2 = *(other.real);
+
+    for(int i = 0; i < ref1.length(); i++){
+        if(ref1[i] == '.'){
+            ref1.erase(i,1);
+            break;
+        }
+    }
+    for(int i = 0; i < ref2.length(); i++){
+        if(ref2[i] == '.'){
+            ref2.erase(i,1);
+            break;
+        }
+    }
+    BigDecimalInt int1(ref1);
+    BigDecimalInt int2(ref2);
+    BigDecimalInt int3 = int1 - int2;
+    BigReal result(int3);
+    return result;
 }
 
 

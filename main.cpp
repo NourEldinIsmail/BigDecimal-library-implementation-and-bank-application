@@ -1,14 +1,10 @@
 #include"bigDec.cpp"
 #include"BigReal.cpp"
 int main(){
-
-    BigReal a(15.3);
-    BigReal b(16.0);
-    BigReal c = a + b;
-    cout << c << endl;
-
-/*BigReal c(std::move(BigReal("1.2")));
-cout<<*(c.get_real())<<endl;*/
+    BigReal int1("123.456");
+    BigReal int2("123.456");
+    BigReal int3 = int1 - int2;
+    cout << *(int3.get_real()) << endl;
 
 
 }
