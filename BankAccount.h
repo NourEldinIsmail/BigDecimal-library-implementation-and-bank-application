@@ -26,6 +26,8 @@ virtual  bool withdraw(double amount){
     }
 }
 };
+
+
 class SavingsAccount : public BankAccount {
 private:
 double minBalance = 1000.0;
@@ -34,6 +36,7 @@ SavingsAccount(string id, double bal) : BankAccount(id, bal){
 if (bal < minBalance) {
 cout << "Insufficient funds" << endl;
 }
+
 }
 void setMinBalance(double minBal){minBalance = minBal;}
 double getMinBalance(){return minBalance;}
@@ -55,13 +58,16 @@ void deposit(double amount) {
     }
 }
 
+};
 
 
-
-
+class client{
 
 };
-class client{
+
+class BankApplication{
+
+
 
 };
 
