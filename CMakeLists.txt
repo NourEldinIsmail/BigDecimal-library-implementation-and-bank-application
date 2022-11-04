@@ -9,5 +9,5 @@ add_executable(BigDecimal1
         bigDec.h
         main.cpp
         BigReal.h
-        )
+     BankAccount.h)
 
