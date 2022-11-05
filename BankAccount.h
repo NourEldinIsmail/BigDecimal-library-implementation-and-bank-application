@@ -70,7 +70,7 @@ private:
 public:
     Client(){};
     Client(string n, string a, string p, int t){
-        name = n, address = a, phoneNumber = p;
+        name = n, address = a, phoneNumber = p, accType = t;
     }
     string get_name(){return name;}
     string get_address(){return address;}
