@@ -45,36 +45,19 @@ void BankApplication::createAccount(){
     getline(cin, name);
     cout << endl;
     cout << "Please Enter Client Address =========> ";
-    cin.ignore();
     getline(cin, address);
     cout << endl;
     cout << "Please Enter Client Phone =========> ";
-    cin.ignore();
     getline(cin, phone);
     cout << endl;
     cout << "What Type of Account Do You Like? (1) Basic (2) Saving – Type 1 or 2 =========> ";
     cin >> accType;
     cout << endl;
-    if(accType == 2){
-        while(true){
-            cout << "Please Enter the Starting Balance =========> ";
-            cin >> startingBalance;
-            cout << endl;
-            if(startingBalance >= 1000){
-                break;
-            }
-            else{
-                cout << "Minimum Balance is 1000" << endl;
-            }
-        }
-    }
-    else{
-        cout << "Please Enter the Starting Balance =========> ";
-        cin >> startingBalance;
-        cout << endl;
-    }
+    cout << "Please Enter the Starting Balance =========> ";
+    cin >> startingBalance;
+    cout << endl;
     Client c(name, address, phone, accType);
-    string id = "FCAI-" + to_string(++lastID);
+    string id = "FCAI-" + to_string(lastID++);
     c.createAcount(id, startingBalance);
     clients[id] = c;
     ids.push_back(id);
@@ -83,14 +66,12 @@ void BankApplication::createAccount(){
 
 void Client::createAcount(string id, double bal){
     if(accType == 1){
-        BankAccount ac(id, bal);
-        BankAccount* account = &ac;
-        accounts[id] = ac;
+        BankAccount* account = new BankAccount(id, bal);
+        accounts[id] = *account, accType;
     }
     else if(accType == 2){
-        SavingsAccount ac(id, bal);
-        SavingsAccount* account = &ac;
-        accounts[id] = ac;
+        SavingsAccount* account = new SavingsAccount(id, bal);
+        accounts[id] = *account, accType;
     }
 
 }
@@ -99,7 +80,7 @@ void BankApplication::displayAccounts(){
     for(string id:ids){
         cout << "-------------------------- " << clients[id].get_name() << " ---------" << endl;
         cout << "Address: " << clients[id].get_address() << endl;
-        cout << "Account ID: " << id;
+        cout << "Account ID: " << id << endl;
         if(clients[id].get_accType() == 1){
             cout << " (Basic)" << endl;
         }

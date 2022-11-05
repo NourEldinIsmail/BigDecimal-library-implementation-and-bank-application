@@ -17,7 +17,7 @@ public:
     void setBalance(double bal){balance = bal;}
     string getID(){return ID;}
     double getBalance(){return balance;}
-    virtual  void deposit(double amount){balance += amount;}
+    virtual  bool deposit(double amount){balance += amount;}
     virtual  bool withdraw(double amount){
         if (amount > balance) {
             cout << "Insufficient funds" << endl;
@@ -51,12 +51,14 @@ public:
             return true;
         }
     }
-    void deposit(double amount) {
+   bool deposit(double amount) {
         if(amount >=100){
             setBalance(getBalance() + amount);
+            return true;
         }
         else{
             cout << "Minimum deposit is 100" << endl;
+            return false;
         }
     }
 };
@@ -85,8 +87,9 @@ public:
     int displayMenu();
     void displayAccounts();
     void createAccount();
+    void deposit();
+    void withdraw();
 };
-
 
 map<string, Client> clients;
 map<string, BankAccount> accounts;
