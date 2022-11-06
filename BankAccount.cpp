@@ -79,8 +79,8 @@ void BankApplication::createAccount(){
         cin >> startingBalance;
         cout << endl;
     }
-    Client c(name, address, phone, accType);
     string id = "FCAI-" + to_string(++lastID);
+    Client c(name, address, phone, accType);
     c.createAcount(id, startingBalance);
     clients[id] = c;
     ids.push_back(id);
@@ -89,14 +89,12 @@ void BankApplication::createAccount(){
 
 void Client::createAcount(string id, double bal){
     if(accType == 1){
-        BankAccount ac(id, bal);
-        BankAccount* account = &ac;
-        accounts[id] = ac;
+        account = new BankAccount(id, bal);
+        accounts[id] = account;
     }
     else if(accType == 2){
-        SavingsAccount ac(id, bal);
-        SavingsAccount* account = &ac;
-        accounts[id] = ac;
+        account = new SavingsAccount(id, bal);
+        accounts[id] = account;
     }
 
 }
@@ -112,7 +110,8 @@ void BankApplication::displayAccounts(){
         else if(clients[id].get_accType() == 2){
             cout << " (Saving)" << endl;
         }
-        cout << "Balance: " << accounts[id].getBalance() << endl;
+        cout << "Balance: " << accounts[id]->getBalance() << endl;
+        cout << "ID: " << accounts[id]->getID() << endl;
     }
 }
 
@@ -129,9 +128,9 @@ void BankApplication::deposit() {
         cout << "Please Enter Amount =========> "<<endl;
         cin >> amount;
     }
-    accounts[id].deposit(amount);
+    accounts[id]->deposit(amount);
     cout << "Deposit was successful" << endl;
-    cout<<"Your new balance is "<<accounts[id].getBalance()<<endl;
+    cout<<"Your new balance is "<<accounts[id]->getBalance()<<endl;
 
 }
 void BankApplication::withdraw() {
@@ -142,14 +141,14 @@ void BankApplication::withdraw() {
     cout << endl;
     cout << "Please Enter Amount =========> ";
     cin >> amount;
-    while (amount>accounts[id].getBalance()) {
+    while (amount>accounts[id]->getBalance()) {
         cout << "You don't have enough balance" << endl;
         cout << "Please Enter Amount =========> "<<endl;
         cin >> amount;
     }
-    accounts[id].withdraw(amount);
+    accounts[id]->withdraw(amount);
     cout << "Withdraw was successful" << endl;
-    cout<<"Your balance is "<<accounts[id].getBalance()<<endl;
+    cout<<"Your balance is "<<accounts[id]->getBalance()<<endl;
 
 
 }

@@ -89,6 +89,6 @@ public:
 
 
 map<string, Client> clients;
-map<string, BankAccount> accounts;
+map<string, BankAccount*> accounts;
 vector<string> ids;
 int lastID = 0;
