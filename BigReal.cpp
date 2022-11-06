@@ -134,8 +134,7 @@ BigReal BigReal::operator+(BigReal &other) {
     string ref1 = *(this->real);
     string ref2 = *(other.real);
     string real1="",fraction1="",real2="",fraction2="";
-int cnt1=0,cnt2=0,sizepnt1=0,sizepnt2=0;
-int pntIndex;
+int cnt1=0,cnt2=0;
     for(int i = 0; i < ref1.length(); i++){
         if(cnt1 == 0){
             real1 += ref1[i];
@@ -324,7 +323,44 @@ istream& operator>> (istream &in, BigReal &num){
 BigReal BigReal::operator-(BigReal &other) {
     string ref1 = *(this->real);
     string ref2 = *(other.real);
-
+    string real1="",fraction1="",real2="",fraction2="";
+    int cnt1=0,cnt2=0;
+    for(int i = 0; i < ref1.length(); i++){
+        if(cnt1 == 0){
+            real1 += ref1[i];
+        }
+        if(ref1[i] == '.'){
+            ref1.erase(i,1);
+            cnt1++;
+        }
+        if(cnt1>0){
+            fraction1 += ref1[i];}
+    }
+    for(int i = 0; i < ref2.length(); i++){
+        if(cnt2 == 0){
+            real2 += ref2[i];
+        }
+        if(ref2[i] == '.'){
+            ref2.erase(i,1);
+            cnt2++;
+        }
+        if(cnt2>0){
+            fraction2 += ref2[i];}
+    }
+    while(real1.length() <real2.length()){
+        real1 = '0' + real1;
+    }
+    while(real2.length() <real1.length()){
+        real2 = '0' + real2;
+    }
+    while(fraction1.length() <fraction2.length()){
+        fraction1 = fraction1 + '0';
+    }
+    while(fraction2.length() <fraction1.length()){
+        fraction2 = fraction2 + '0';
+    }
+    ref1 = real1 + fraction1;
+    ref2 = real2 + fraction2;
     for(int i = 0; i < ref1.length(); i++){
         if(ref1[i] == '.'){
             ref1.erase(i,1);
@@ -337,10 +373,22 @@ BigReal BigReal::operator-(BigReal &other) {
             break;
         }
     }
+    int pnt_index = ref1.length()-fraction1.length();
     BigDecimalInt int1(ref1);
     BigDecimalInt int2(ref2);
+    string s1 = int1.getnum(),s2 = int2.getnum();
     BigDecimalInt int3 = int1 - int2;
-    BigReal result(int3);
+    string r = int3.getnum();
+    string s = "";
+    for(int i=0;i<r.length();i++){
+        if(i==pnt_index){
+            s += '.';
+            s += r[i];}
+        else{
+            s += r[i];
+        }
+    }
+    BigReal result(s);
     return result;
 }
 
