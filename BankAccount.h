@@ -17,14 +17,13 @@ public:
     void setBalance(double bal){balance = bal;}
     string getID(){return ID;}
     double getBalance(){return balance;}
-    virtual  bool deposit(double amount){balance += amount;}
-    virtual  bool withdraw(double amount){
+    virtual  void deposit(double amount){balance += amount;}
+    virtual  void withdraw(double amount){
         if (amount > balance) {
             cout << "Insufficient funds" << endl;
-            return false;
         } else {
             balance -= amount;
-            return true;
+
         }
     }
 };
@@ -35,30 +34,27 @@ private:
     double minBalance = 1000.0;
 public:
     SavingsAccount(string id, double bal) : BankAccount(id, bal){
-    if (bal < minBalance) {
-    cout << "Insufficient funds" << endl;
-    }
+        if (bal < minBalance) {
+            cout << "Insufficient funds" << endl;
+        }
 
     }
     void setMinBalance(double minBal){minBalance = minBal;}
     double getMinBalance(){return minBalance;}
-    bool withdraw(double amount) {
+    void withdraw(double amount) {
         if (amount > (getBalance() - minBalance)) {
             cout << "Insufficient funds" << endl;
-            return false;
         } else {
             setBalance(getBalance() - amount);
-            return true;
         }
     }
-   bool deposit(double amount) {
+    void deposit(double amount) {
         if(amount >=100){
             setBalance(getBalance() + amount);
-            return true;
+
         }
         else{
             cout << "Minimum deposit is 100" << endl;
-            return false;
         }
     }
 };
@@ -90,6 +86,7 @@ public:
     void deposit();
     void withdraw();
 };
+
 
 map<string, Client> clients;
 map<string, BankAccount> accounts;
