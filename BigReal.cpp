@@ -46,7 +46,10 @@ BigReal &BigReal::operator=(BigReal &&other) { // Move assignment
 
 BigReal::BigReal(BigDecimalInt bigInteger) {
     *real = bigInteger.getnum();
+    string s = *real;
+   if(find(s.begin(),s.end(),'.')==s.end())
     *real += ".0";
+
     if(bigInteger.Sign() == 1){
         *sign1 = '+';
     }
@@ -130,23 +133,65 @@ BigReal BigReal::operator+(BigReal &other) {
 
     string ref1 = *(this->real);
     string ref2 = *(other.real);
-
+int cnt1=0,cnt2=0,sizepnt1=0,sizepnt2=0;
+int pntIndex;
     for(int i = 0; i < ref1.length(); i++){
         if(ref1[i] == '.'){
             ref1.erase(i,1);
-            break;
+            cnt1++;
+            //break;
+        }
+        if(cnt1>0){
+            sizepnt1++;
         }
     }
     for(int i = 0; i < ref2.length(); i++){
         if(ref2[i] == '.'){
             ref2.erase(i,1);
-            break;
+            cnt2++;
         }
+        if(cnt2>0){
+            sizepnt2++;
+        }
+    }
+    if(sizepnt2>=sizepnt1){
+        pntIndex = sizepnt2;
+    }
+    else{
+        pntIndex = sizepnt1;
     }
   BigDecimalInt int1(ref1);
   BigDecimalInt int2(ref2);
-    BigDecimalInt int3 = int1 + int2;
-    BigReal result(int3);
+  string s1 = int1.getnum(),s2 = int2.getnum();
+  int size1 = s1.length(),size2 = s2.length();
+
+  while(size1<size2){
+      s1.push_back('0');
+  }
+
+
+  while (size2<size1){
+      s2.push_back('0');
+  }
+
+
+
+   BigDecimalInt int3 = int1 + int2;
+  string r = int3.getnum();
+  string s = "";
+  for(int i=0;i<r.length();i++){
+      if(i ==r.length()- pntIndex){
+          s.push_back('.');
+          s.push_back(r[i]);
+      }
+      else{
+          s.push_back(r[i]);
+      }
+  }
+
+
+
+    BigReal result(s);
     return result;
 
 /*BigReal result2((big1+big2).getnum());

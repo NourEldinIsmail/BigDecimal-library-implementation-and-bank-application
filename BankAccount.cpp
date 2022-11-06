@@ -79,8 +79,8 @@ void BankApplication::createAccount(){
         cin >> startingBalance;
         cout << endl;
     }
-    string id = "FCAI-" + to_string(++lastID);
     Client c(name, address, phone, accType);
+    string id = "FCAI-" + to_string(++lastID);
     c.createAcount(id, startingBalance);
     clients[id] = c;
     ids.push_back(id);
@@ -89,12 +89,14 @@ void BankApplication::createAccount(){
 
 void Client::createAcount(string id, double bal){
     if(accType == 1){
-        account = new BankAccount(id, bal);
-        accounts[id] = account;
+        BankAccount ac(id, bal);
+        BankAccount* account = &ac;
+        accounts[id] = ac;
     }
     else if(accType == 2){
-        account = new SavingsAccount(id, bal);
-        accounts[id] = account;
+        SavingsAccount ac(id, bal);
+        SavingsAccount* account = &ac;
+        accounts[id] = ac;
     }
 
 }
@@ -110,47 +112,67 @@ void BankApplication::displayAccounts(){
         else if(clients[id].get_accType() == 2){
             cout << " (Saving)" << endl;
         }
-        cout << "Balance: " << accounts[id]->getBalance() << endl;
-        cout << "ID: " << accounts[id]->getID() << endl;
+        cout << "Balance: " << accounts[id].getBalance() << endl;
     }
 }
 
 void BankApplication::deposit() {
     string id;
     double amount;
-    cout << "Please Enter Account ID =========> ";
+    cout << "Please Enter Account ID =========> "<<endl;
     cin >> id;
+    if(clients[id].get_accType() == 2){
     cout << endl;
-    cout << "Please Enter Amount =========> ";
+    cout << "Please Enter Amount =========> "<<endl;
     cin >> amount;
     while (amount < 100) {
         cout << "Minimum deposit is 100" << endl;
         cout << "Please Enter Amount =========> "<<endl;
         cin >> amount;
     }
-    accounts[id]->deposit(amount);
+    accounts[id].deposit(amount);
     cout << "Deposit was successful" << endl;
-    cout<<"Your new balance is "<<accounts[id]->getBalance()<<endl;
+    cout<<"Your new balance is "<<accounts[id].getBalance()<<endl;}
+    else{
+        cout << "Please Enter Amount =========> "<<endl;
+        cin >> amount;
+        accounts[id].deposit(amount);
+        cout << "Deposit was successful" << endl;
+        cout<<"Your new balance is "<<accounts[id].getBalance()<<endl;
+    }
 
 }
+
 void BankApplication::withdraw() {
     string id;
     double amount;
-    cout << "Please Enter Account ID =========> ";
+    cout << "Please Enter Account ID =========> " << endl;
     cin >> id;
-    cout << endl;
-    cout << "Please Enter Amount =========> ";
-    cin >> amount;
-    while (amount>accounts[id]->getBalance()) {
-        cout << "You don't have enough balance" << endl;
-        cout << "Please Enter Amount =========> "<<endl;
+    if (clients[id].get_accType() == 1) {
+        cout << endl;
+        cout << "Please Enter Amount =========> " << endl;
         cin >> amount;
+        while (amount > accounts[id].getBalance()) {
+            cout << "You don't have enough balance" << endl;
+            cout << "Please Enter Amount =========> " << endl;
+            cin >> amount;
+        }
+        accounts[id].withdraw(amount);
+        cout << "Withdraw was successful" << endl;
+        cout << "Your balance is " << accounts[id].getBalance() << endl;
+    } else {
+        cout << "Please Enter Amount =========> " << endl;
+        cin >> amount;
+        while (amount > (accounts[id].getBalance() - 1000)) {
+            cout << "You don't have enough balance" << endl;
+            cout << "Please Enter Amount =========> " << endl;
+            cin >> amount;
+        }
+        accounts[id].withdraw(amount);
+        cout << "Withdraw was successful" << endl;
+        cout << "Your balance is " << accounts[id].getBalance() << endl;
+
     }
-    accounts[id]->withdraw(amount);
-    cout << "Withdraw was successful" << endl;
-    cout<<"Your balance is "<<accounts[id]->getBalance()<<endl;
 
 
 }
-
-

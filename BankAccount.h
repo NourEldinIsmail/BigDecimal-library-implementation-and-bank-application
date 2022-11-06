@@ -40,7 +40,9 @@ public:
 
     }
     void setMinBalance(double minBal){minBalance = minBal;}
+
     double getMinBalance(){return minBalance;}
+
     void withdraw(double amount) {
         if (amount > (getBalance() - minBalance)) {
             cout << "Insufficient funds" << endl;
@@ -89,6 +91,6 @@ public:
 
 
 map<string, Client> clients;
-map<string, BankAccount*> accounts;
+map<string, BankAccount> accounts;
 vector<string> ids;
 int lastID = 0;
