@@ -63,13 +63,17 @@ BigReal::BigReal(double realNum) {
     assign();
 }
 BigReal::BigReal(string realNumber) {
+
+    if(realNumber.length() == 1){
+        realNumber += ".0";
+    }
     if(realNumber[0]=='-'){
         *sign1 = '-';
         // realNumber.erase(0,1);
     }
-    else if(realNumber[0]=='+'){
+    else if(realNumber[0]=='+') {
         *sign1 = '+';
-        realNumber.erase(0,1);
+        realNumber.erase(0, 1);
     }
     else{
         *sign1 = '+';
@@ -133,6 +137,10 @@ BigReal BigReal::operator+(BigReal &other) {
 
     string ref1 = *(this->real);
     string ref2 = *(other.real);
+    if(ref1[0]=='-')
+        ref1.erase(0,1);
+    if(ref2[0]=='-')
+        ref2.erase(0,1);
     string real1="",fraction1="",real2="",fraction2="";
 int cnt1=0,cnt2=0;
     for(int i = 0; i < ref1.length(); i++){
@@ -184,8 +192,13 @@ for(int i = 0; i < ref2.length(); i++){
     }
 }
 int pnt_index = ref1.length()-fraction1.length();
-  BigDecimalInt int1(ref1);
-  BigDecimalInt int2(ref2);
+if(*(this->sign1) == '-')
+    ref1 = '-' + ref1;
+if(*(other.sign1) == '-')
+    ref2 = '-' + ref2;
+
+BigDecimalInt int1(ref1);
+BigDecimalInt int2(ref2);
   string s1 = int1.getnum(),s2 = int2.getnum();
   BigDecimalInt int3 = int1 + int2;
   string r = int3.getnum();
@@ -199,6 +212,7 @@ int pnt_index = ref1.length()-fraction1.length();
         }
   }
     BigReal result(s);
+  *result.sign1 = int3.Sign();
     return result;
 }
 
@@ -310,7 +324,10 @@ int BigReal::size(){
 }
 
 ostream& operator << (ostream &out, BigReal num){
-    out<<*(num.real);
+    if(num.sign() == -1){
+        out << "-";
+    }
+    out<<*(num.real)<<endl;
     return out;
 }
 
