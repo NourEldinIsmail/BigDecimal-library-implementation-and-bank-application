@@ -194,6 +194,7 @@ for(int i = 0; i < ref2.length(); i++){
 int pnt_index = ref1.length()-fraction1.length();
 if(*(this->sign1) == '-')
     ref1 = '-' + ref1;
+
 if(*(other.sign1) == '-')
     ref2 = '-' + ref2;
 
@@ -212,7 +213,12 @@ BigDecimalInt int2(ref2);
         }
   }
     BigReal result(s);
-  *result.sign1 = int3.Sign();
+  if(int3.Sign() == 1) {
+      *result.sign1 = '+';
+  }
+    else{
+        *result.sign1 = '-';}
+
     return result;
 }
 
