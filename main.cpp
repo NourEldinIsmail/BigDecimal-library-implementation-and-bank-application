@@ -6,8 +6,8 @@ int main() {
     app.run();
     return 0;
 */
-  BigReal a("1.3");
-        BigReal b("1.2");
-        BigReal c = a + b;
+  BigReal a("2.5");
+        BigReal b("-2.9");
+        BigReal c = a - b;
         cout << c << endl;
 }

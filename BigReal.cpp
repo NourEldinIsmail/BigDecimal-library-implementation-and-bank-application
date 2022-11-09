@@ -204,14 +204,22 @@ BigDecimalInt int2(ref2);
   BigDecimalInt int3 = int1 + int2;
   string r = int3.getnum();
   string s = "";
-  for(int i=0;i<r.length();i++){
+
+  if(int1.Sign() != int2.Sign() && real1 == real2){
+     s  = "0."+r;
+  }
+  else{
+    for(int i=0;i<r.length();i++){
         if(i==pnt_index){
             s += '.';
-        s += r[i];}
+            s += r[i];}
         else{
             s += r[i];
         }
-  }
+    }}
+
+  if(find(s.begin(),s.end(),'.')==s.end())
+  {s  = "0."+s;}
     BigReal result(s);
   if(int3.Sign() == 1) {
       *result.sign1 = '+';
@@ -346,6 +354,10 @@ istream& operator>> (istream &in, BigReal &num){
 BigReal BigReal::operator-(BigReal &other) {
     string ref1 = *(this->real);
     string ref2 = *(other.real);
+    if(ref1[0]=='-')
+        ref1.erase(0,1);
+    if(ref2[0]=='-')
+        ref2.erase(0,1);
     string real1="",fraction1="",real2="",fraction2="";
     int cnt1=0,cnt2=0;
     for(int i = 0; i < ref1.length(); i++){
@@ -397,21 +409,41 @@ BigReal BigReal::operator-(BigReal &other) {
         }
     }
     int pnt_index = ref1.length()-fraction1.length();
+    if(*(this->sign1) == '-')
+        ref1 = '-' + ref1;
+
+    if(*(other.sign1) == '-')
+        ref2 = '-' + ref2;
+
     BigDecimalInt int1(ref1);
     BigDecimalInt int2(ref2);
     string s1 = int1.getnum(),s2 = int2.getnum();
     BigDecimalInt int3 = int1 - int2;
     string r = int3.getnum();
     string s = "";
-    for(int i=0;i<r.length();i++){
-        if(i==pnt_index){
-            s += '.';
-            s += r[i];}
-        else{
-            s += r[i];
-        }
+
+    if(int1.Sign() == int2.Sign() && real1 == real2){
+        s  = "0."+r;
     }
+    else{
+        for(int i=0;i<r.length();i++){
+            if(i==pnt_index){
+                s += '.';
+                s += r[i];}
+            else{
+                s += r[i];
+            }
+        }}
+
+    if(find(s.begin(),s.end(),'.')==s.end())
+    {s  = "0."+s;}
     BigReal result(s);
+    if(int3.Sign() == 1) {
+        *result.sign1 = '+';
+    }
+    else{
+        *result.sign1 = '-';}
+
     return result;
 }
 
