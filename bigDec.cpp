@@ -9,14 +9,14 @@
 #include "bigDec.h"
 
 // regex function that checks the validation of the input.
-bool BigDecimalInt :: checkValidInput(string input)
+bool BigDecimalInt :: checkValidInput(const string &input)
 {
     regex validInput("[-+]?[0-9]+");
     return regex_match(input, validInput);
 }
 
 // constructor that takes a string as an input.
-void BigDecimalInt :: setNumber(string num)
+void BigDecimalInt :: setNumber(const string &num)
 {
     bool validNumber = checkValidInput(num);
     if(validNumber)
@@ -115,7 +115,7 @@ bool BigDecimalInt :: operator > (const BigDecimalInt &anotherDec)
 }
 
 // operator == overloading function.
-bool BigDecimalInt :: operator == (const BigDecimalInt anotherDec)
+bool BigDecimalInt :: operator == (const BigDecimalInt &anotherDec)
 {
     if (sign == anotherDec.sign && number == anotherDec.number)
     {
@@ -154,8 +154,8 @@ string addition(string num1,string num2)
         }
         res = char((twoDigitsSum % 10) + '0') + res;
         *(it1 + 1) = char(((*(it1 + 1) - '0') + carry) + '0');
-        it1++;
-        it2++;
+        ++it1;
+        ++it2;
     }
     if (carry)
     {
@@ -165,7 +165,7 @@ string addition(string num1,string num2)
 }
 
 //subtraction implementation
-string subtraction(string num1,string num2){
+string subtraction(string num1, string &num2){
     deque<long long>d;
     string res;
 
@@ -228,7 +228,7 @@ BigDecimalInt BigDecimalInt :: operator + (BigDecimalInt number2)
 BigDecimalInt BigDecimalInt :: operator - (BigDecimalInt anotherDec)
 {
     BigDecimalInt obj;
-    deque<long long> d;
+//    deque<long long> d;
     string strmin = "", res = "";
     string num1 = number, num2 = anotherDec.number;
     char sign1 = sign, sign2 = anotherDec.sign;
@@ -249,7 +249,8 @@ BigDecimalInt BigDecimalInt :: operator - (BigDecimalInt anotherDec)
             strmin += '0';
         }
         strmin += number;
-        num1 = strmin;
+//        num1 = strmin;
+        swap(num1, strmin);
     }
 
     bool ok = false, is_determined = false;
@@ -306,7 +307,8 @@ BigDecimalInt BigDecimalInt :: operator - (BigDecimalInt anotherDec)
         obj.sign = '+';
     }
 
-    obj.number=res;
+//    obj.number=res;
+    swap(obj.number, res);
     return obj;
 }
 
@@ -340,11 +342,12 @@ void BigDecimalInt ::push_front(char ch)
 {
     string temp;
     temp = ch + number;
-    number = temp;
+//    number = temp;
+    swap(number, temp);
 }
 
 // operator << overloading function.
-ostream &operator << (ostream &out, BigDecimalInt num)
+ostream &operator << (ostream &out, const BigDecimalInt num)
 {
     if(num.sign == '+')
     {

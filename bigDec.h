@@ -23,13 +23,13 @@ class BigDecimalInt{
 private:
     string number;
     char sign;
-    void setNumber(string num);
-    bool checkValidInput(string input);
+    void setNumber(const string &num);
+    bool checkValidInput(const string &input);
 
 public:
     bool operator < (const BigDecimalInt& anotherDec);
     bool operator > (const BigDecimalInt& anotherDec);
-    bool operator == (const BigDecimalInt anotherDec);
+    bool operator == (const BigDecimalInt& anotherDec);
     BigDecimalInt& operator = (BigDecimalInt anotherDec);
     BigDecimalInt operator + (BigDecimalInt number2);
     BigDecimalInt operator - (BigDecimalInt anotherDec);
@@ -38,7 +38,7 @@ public:
     int Sign();
     void push_back(char ch);
     void push_front(char ch);
-    BigDecimalInt(){}
+    BigDecimalInt() = default;
     BigDecimalInt(string num)
     {
         setNumber(num);

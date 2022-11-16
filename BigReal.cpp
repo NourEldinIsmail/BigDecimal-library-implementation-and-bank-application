@@ -83,7 +83,8 @@ BigReal::BigReal(string realNumber) {
     }
     else if(realNumber[realNumber.length()-1]=='.')
         realNumber += '0';
-    *real = realNumber;
+    // *real = realNumber;
+    swap(*real,realNumber);
     assign();
 }
 BigReal::~BigReal() {
@@ -200,7 +201,7 @@ if(*(other.sign1) == '-')
 
 BigDecimalInt int1(ref1);
 BigDecimalInt int2(ref2);
-  string s1 = int1.getnum(),s2 = int2.getnum();
+//  string s1 = int1.getnum(),s2 = int2.getnum();
   BigDecimalInt int3 = int1 + int2;
   string r = int3.getnum();
   string s = "";
@@ -417,7 +418,7 @@ BigReal BigReal::operator-(BigReal &other) {
 
     BigDecimalInt int1(ref1);
     BigDecimalInt int2(ref2);
-    string s1 = int1.getnum(),s2 = int2.getnum();
+    // string s1 = int1.getnum(),s2 = int2.getnum();
     BigDecimalInt int3 = int1 - int2;
     string r = int3.getnum();
     string s = "";

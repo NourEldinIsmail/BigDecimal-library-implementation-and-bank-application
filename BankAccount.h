@@ -1,19 +1,30 @@
 #pragma once
 #include<iostream>
 #include<bits/stdc++.h>
+#include"client.h"
+#include"bankapplication.h"
+
 using namespace std;
 
-
+class client;
 
 class BankAccount {
 private:
     string ID;
     double balance;
-    // Client* owner;
+    Client* owner;
 public:
     BankAccount(){balance = 0.0;}
-    BankAccount(string id, double bal){ID = id; balance = bal;}
-    void setID(string id){ID = id;}
+    BankAccount(string id, double bal, Client *o){
+        // ID = id; balance = bal;
+        swap(ID, id);
+        swap(balance, bal);
+        owner = o;
+    }
+    void setID(string &id){
+        //ID = id;
+        ID = move(id);
+    }
     void setBalance(double bal){balance = bal;}
     string getID(){return ID;}
     double getBalance(){return balance;}
@@ -28,12 +39,11 @@ public:
     }
 };
 
-
 class SavingsAccount : public BankAccount {
 private:
     double minBalance = 1000.0;
 public:
-    SavingsAccount(string id, double bal) : BankAccount(id, bal){
+    SavingsAccount(string id, double bal, Client* owner) : BankAccount(id, bal, owner){
         if (bal < minBalance) {
             cout << "Insufficient funds" << endl;
         }
@@ -62,35 +72,7 @@ public:
 };
 
 
-class Client{
-private:
-    string name, address, phoneNumber;
-    BankAccount* account;
-    int accType;
-public:
-    Client(){};
-    Client(string n, string a, string p, int t){
-        name = n, address = a, phoneNumber = p, accType = t;
-    }
-    string get_name(){return name;}
-    string get_address(){return address;}
-    string get_phone(){return phoneNumber;}
-    void createAcount(string id, double bal);
-    int get_accType(){return accType;}
-};
-
-class BankApplication{
-public:
-    void run();
-    int displayMenu();
-    void displayAccounts();
-    void createAccount();
-    void deposit();
-    void withdraw();
-};
-
-
 map<string, Client> clients;
-map<string, BankAccount> accounts;
+map<string, BankAccount*> accounts;
 vector<string> ids;
 int lastID = 0;
